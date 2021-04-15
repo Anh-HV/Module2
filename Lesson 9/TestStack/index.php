@@ -1,0 +1,65 @@
+<?php
+class ReadingList
+{
+    protected $stack;
+    protected $limit;
+    
+    public function __construct($limit = 10) {
+        // initialize the stack
+        $this->stack = array();
+        // stack can only contain this many items
+        $this->limit = $limit;
+    }
+
+    public function push($item) {
+        // trap for stack overflow
+        if (count($this->stack) < $this->limit) {
+            // prepend item to the start of the array
+            array_unshift($this->stack, $item);
+        } else {
+            throw new RunTimeException('Stack is full!'); 
+        }
+    }
+
+    public function pop() {
+        if ($this->isEmpty()) {
+            // trap for stack underflow
+	      throw new RunTimeException('Stack is empty!');
+	  } else {
+            // pop item from the start of the array
+            return array_shift($this->stack);
+        }
+    }
+
+    public function top() {
+        return current($this->stack);
+    }
+
+    public function isEmpty() {
+        return empty($this->stack);
+    }
+}
+$stk = new ReadingList();
+
+echo "<pre>";
+
+$stk->push(1);
+$stk->push(2);
+$stk->push(3);
+$stk->push(4);
+$stk->push(5);
+
+$stk->pop();
+$stk->pop();
+$stk->pop();
+
+$stk->push(3);
+$stk->push(4);
+
+$stk->pop();
+$stk->pop();
+$stk->pop();
+$stk->pop();
+
+
+print_r($stk);
